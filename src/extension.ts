@@ -1,9 +1,9 @@
 import {
-		commands,
-		ExtensionContext,
-    Position,
-    Selection,
-    window,
+	commands,
+	ExtensionContext,
+	Position,
+	Selection,
+	window,
 } from 'vscode';
 
 export function activate(context: ExtensionContext) {
@@ -13,19 +13,20 @@ export function activate(context: ExtensionContext) {
 		const { activeTextEditor } = window;
 
 		if (activeTextEditor !== undefined) {
-			const { lineNumber, firstNonWhitespaceCharacterIndex, range, range: { isSingleLine } } = activeTextEditor.document.lineAt(activeTextEditor.selection.start.line);
+			const { lineNumber, firstNonWhitespaceCharacterIndex, range } = activeTextEditor.document.lineAt(activeTextEditor.selection.start.line);
+			const { start, end } = activeTextEditor.selection;
+
+			if (start.line !== end.line) {
+				window.showWarningMessage(
+					`You selected multiple lines - but don't worry - only the first line was selected.`
+				);
+			}
 
 			activeTextEditor.selection = new Selection(
 				new Position(lineNumber, firstNonWhitespaceCharacterIndex),
 				range.end
 			);
 
-			if (isSingleLine === false) {
-				window.showWarningMessage(
-					`You selected multiple lines - but don't worry - only the first line was selected.`
-				);
-			}
-			
 		}
 	});
 

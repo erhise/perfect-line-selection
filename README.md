@@ -1,5 +1,3 @@
-![](assets/expand.png)
-
 # Perfect Line Selection
 
 This extension for Visual Studio Code does one thing and one thing only. </br>
